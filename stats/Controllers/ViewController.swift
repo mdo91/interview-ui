@@ -14,6 +14,7 @@ class StatsViewController: UIViewController {
     let yAxisValues = Array(0...5).reversed()
     
     var values :[CGFloat] = [5,100,60,200]
+    var percentages :[Int] = [100,75,25]
     
     lazy var scrollView :UIScrollView = {
        let scrollView = UIScrollView()
@@ -121,6 +122,7 @@ class StatsViewController: UIViewController {
         flowLayout.scrollDirection = .horizontal
         flowLayout.minimumLineSpacing = 25
         
+        
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
         return collectionView
         
@@ -130,7 +132,8 @@ class StatsViewController: UIViewController {
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
-        flowLayout.minimumLineSpacing = 25
+        flowLayout.minimumLineSpacing = 40
+     //   flowLayout.minimumInteritemSpacing = 40
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
         
         return collectionView
@@ -143,6 +146,11 @@ class StatsViewController: UIViewController {
         collectionView.register(BarCell.self, forCellWithReuseIdentifier: BarCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        
+        circleCollectionView.register(CircleCell.self, forCellWithReuseIdentifier: CircleCell.reuseIdentifier)
+        circleCollectionView.delegate = self
+        circleCollectionView.dataSource = self
        // collectionView.backgroundColor = .yellow
         configUICollectionView()
 
@@ -221,7 +229,7 @@ class StatsViewController: UIViewController {
         
         //thirdSection
         
-        
+        thirdSection.addSubview(circleCollectionView)
         thirdSection.topAnchor.constraint(equalTo: secendSection.bottomAnchor, constant: 0).isActive = true
         thirdSection.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         thirdSection.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
@@ -233,6 +241,20 @@ class StatsViewController: UIViewController {
      //   third section contents
         
         
+        circleCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+    
+        
+        circleCollectionView.rightAnchor.constraint(equalTo: thirdSection.rightAnchor).isActive = true
+        
+        circleCollectionView.leftAnchor.constraint(equalTo: thirdSection.leftAnchor).isActive = true
+        
+        circleCollectionView.heightAnchor.constraint(equalToConstant: 65).isActive = true
+    //    circleCollectionView.widthAnchor.constraint(equalTo: thirdSection.widthAnchor).isActive = true
+        circleCollectionView.topAnchor.constraint(equalTo: thirdSection.topAnchor, constant: 60).isActive = true
+        
+        circleCollectionView.backgroundColor = .white
+       
         
     
         
@@ -293,38 +315,57 @@ class StatsViewController: UIViewController {
 extension StatsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return values.count
+        if collectionView == self.collectionView{
+            return values.count
+        }
+        return percentages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BarCell.reuseIdentifier, for: indexPath) as? BarCell else {
-            fatalError("\(BarCell.self) could not be initialized")
-        }
- 
-        if let max = values.max() {
-            let value = values[indexPath.item]
-            let ratio = value / max
+        
+        if collectionView == self.collectionView{
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BarCell.reuseIdentifier, for: indexPath) as? BarCell else {
+                fatalError("\(BarCell.self) could not be initialized")
+            }
+     
+            if let max = values.max() {
+                let value = values[indexPath.item]
+                let ratio = value / max
 
-            cell.barHeightConstriant?.constant = maxHeight() * ratio
+                cell.barHeightConstriant?.constant = maxHeight() * ratio
+            }
+            
+            cell.barHeightConstriant?.constant = values[indexPath.item]
+           
+            return cell
+        }else{
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CircleCell.reuseIdentifier, for: indexPath) as? CircleCell else {
+                fatalError("\(CircleCell.self) could not be initialized")
+            }
+     
+            
+            cell.circleRadiusConstriant?.constant = CGFloat(35)
+            cell.percentageLable.text = "\(percentages[indexPath.row])%"
+            return cell
         }
         
-        cell.barHeightConstriant?.constant = values[indexPath.item]
-       
-        return cell
+
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.collectionView {
            return CGSize(width: 27, height: collectionView.frame.height)
         }
-        return CGSize(width: 20, height: 20)
+        return CGSize(width: 27, height: collectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if collectionView == self.collectionView{
           return UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 4)
         }
-        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 4)
+        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 4)
     }
 
     
