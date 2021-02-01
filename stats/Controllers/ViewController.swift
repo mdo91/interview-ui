@@ -94,10 +94,16 @@ class StatsViewController: UIViewController {
         let contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
       //  contentView.backgroundColor = .systemPurple
+        
         let lable = UILabel()
-        lable.text = "Text is here "
-        lable.backgroundColor = .red
         contentView.addSubview(lable)
+        lable.translatesAutoresizingMaskIntoConstraints = false
+        lable.text = "Section title"
+        lable.font = UIFont.systemFont(ofSize: 23, weight: .regular)
+        
+        lable.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15).isActive = true
+        lable.topAnchor.constraint(equalTo:contentView.topAnchor,constant: 15).isActive = true
+  
         
         
         return contentView
@@ -116,12 +122,21 @@ class StatsViewController: UIViewController {
         flowLayout.minimumLineSpacing = 25
         
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
-        //collectionView.backgroundColor = .red
-
         return collectionView
         
     }()
-
+    
+    lazy var circleCollectionView:UICollectionView = {
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumLineSpacing = 25
+        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
+        
+        return collectionView
+    }()
+    
+//MARK: - ViewController life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -139,6 +154,7 @@ class StatsViewController: UIViewController {
     
     private func configUICollectionView(){
         view.addSubview(scrollView)
+        
         scrollView.addSubview(firstSection)
         scrollView.addSubview(secendSection)
         scrollView.addSubview(thirdSection)
@@ -213,7 +229,9 @@ class StatsViewController: UIViewController {
         thirdSection.heightAnchor.constraint(equalToConstant: 430).isActive = true
         thirdSection.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         thirdSection.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        print("thirdSection \(thirdSection.frame)")
+        
+     //   third section contents
+        
         
         
     
@@ -273,6 +291,7 @@ class StatsViewController: UIViewController {
 //MAKR: - UICollectionView delegates
 
 extension StatsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return values.count
     }
@@ -281,8 +300,7 @@ extension StatsViewController: UICollectionViewDelegate, UICollectionViewDataSou
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BarCell.reuseIdentifier, for: indexPath) as? BarCell else {
             fatalError("\(BarCell.self) could not be initialized")
         }
-      //  print("\(backgroundView.frame.height)")
-       
+ 
         if let max = values.max() {
             let value = values[indexPath.item]
             let ratio = value / max
@@ -296,11 +314,17 @@ extension StatsViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 27, height: collectionView.frame.height)
+        if collectionView == self.collectionView {
+           return CGSize(width: 27, height: collectionView.frame.height)
+        }
+        return CGSize(width: 20, height: 20)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 4)
+        if collectionView == self.collectionView{
+          return UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 4)
+        }
+        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 4)
     }
 
     

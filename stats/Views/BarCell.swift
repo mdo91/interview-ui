@@ -24,14 +24,6 @@ class BarCell:UICollectionViewCell{
         gradientLayer.frame = self.bounds
         gradientLayer.colors = [secondGreen.cgColor,firstGreen.cgColor]
         view.layer.insertSublayer(gradientLayer, at: 0)
-        //view.translatesAutoresizingMaskIntoConstraints  = false
-      //  view.backgroundColor = .yellow
-      //  view.roundedCorners(corner: [.topRight,.topLeft], radius: 3.0)
-//        let path = UIBezierPath(roundedRect:self.bounds, byRoundingCorners:[.topRight, .topLeft], cornerRadii: CGSize(width: 10, height: 10))
-//        let maskLayer = CAShapeLayer()
-//
-//        maskLayer.path = path.cgPath
-//        view.layer.mask = maskLayer
          view.roundedCorners(roundedRect: self.bounds, corner: [.topRight, .topLeft], radius:CGSize(width: 10, height: 10))
         return view
     }()
@@ -53,9 +45,6 @@ class BarCell:UICollectionViewCell{
     
     override func layoutSubviews() {
         super.layoutSubviews()
-      //  roundedCorners(corner: [.topRight,.topRight], radius: 30.0)
-        
-     //   configUIConstaints()
         
     }
     //MARK: - configUIConstaints
