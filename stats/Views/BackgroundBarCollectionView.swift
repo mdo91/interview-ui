@@ -15,7 +15,7 @@ class BackgroundBarCollectionView:UIView{
     let yAxisValues = Array(0...5).reversed()
     
     lazy var backgroundView:UIView = {
-      //  let containerView = UIView(frame: CGRect(x: 0, y: 0, width:UIScreen.main.bounds.width - 20, height: 401))
+
         let containerView = UIView()
 
         

@@ -20,7 +20,8 @@ class CircleCell:UICollectionViewCell{
         circle.translatesAutoresizingMaskIntoConstraints = false
         circle.backgroundColor = hexStringToUIColor(hex: "#0D7C6C")
         
-        circle.layer.cornerRadius = 25
+      //  circle.layer.cornerRadius = 25
+       // circle.roundedCorners(roundedRect: self.bounds, corner: [.allCorners], radius: CGSize(width: 25, height: 25))
 
         return circle
     }()
@@ -28,9 +29,10 @@ class CircleCell:UICollectionViewCell{
     let percentageLable: UILabel = {
         let lable = UILabel()
        // lable.translatesAutoresizingMaskIntoConstraints  = true
-        lable.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        lable.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
         lable.text = "100%"
         lable.textColor = .white
+      //  lable.textAlignment = .
         lable.textAlignment = .center
       //  lable.backgroundColor = .green
        return lable
@@ -40,6 +42,7 @@ class CircleCell:UICollectionViewCell{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+       // self.backgroundColor = .systemPurple
     }
     
     required init?(coder: NSCoder) {
@@ -52,16 +55,24 @@ class CircleCell:UICollectionViewCell{
         super.layoutSubviews()
        // self.backgroundColor = .red
         addSubview(circleView)
-        
-        circleRadiusConstriant = circleView.widthAnchor.constraint(equalToConstant: 50)
-        circleRadiusConstriant?.isActive = true
-        circleRadiusConstriant?.constant = 50
-        
-        
-        
-        circleView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        circleView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        circleView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+
+        if percentageLable.text == "100%"{
+           // circleRadiusConstriant?.constant = 50
+            circleView.layer.cornerRadius = 30
+            percentageLable.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+            circleView.widthAnchor.constraint(equalToConstant: 60).isActive = true
+            circleView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+   
+        }else{
+            circleView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+          //  circleRadiusConstriant?.constant = 40
+            circleView.backgroundColor = hexStringToUIColor(hex: "#094E44")
+            circleView.layer.cornerRadius = 20
+            circleView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        }
+
+        circleView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        circleView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
      
         
         circleView.addSubview(percentageLable)
@@ -70,6 +81,8 @@ class CircleCell:UICollectionViewCell{
         percentageLable.centerYAnchor.constraint(equalTo: circleView.centerYAnchor).isActive = true
         percentageLable.leftAnchor.constraint(equalTo: circleView.leftAnchor).isActive = true
         percentageLable.rightAnchor.constraint(equalTo: circleView.rightAnchor).isActive = true
+        
+
    
     }
     

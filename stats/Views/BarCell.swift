@@ -24,7 +24,7 @@ class BarCell:UICollectionViewCell{
         gradientLayer.frame = self.bounds
         gradientLayer.colors = [secondGreen.cgColor,firstGreen.cgColor]
         view.layer.insertSublayer(gradientLayer, at: 0)
-         view.roundedCorners(roundedRect: self.bounds, corner: [.topRight, .topLeft], radius:CGSize(width: 10, height: 10))
+        view.roundedCorners(roundedRect: self.bounds, corner: [.topRight, .topLeft], radius:CGSize(width: 10, height: 10))
         return view
     }()
     

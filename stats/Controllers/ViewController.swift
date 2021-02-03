@@ -13,7 +13,7 @@ class StatsViewController: UIViewController {
     
     let yAxisValues = Array(0...5).reversed()
     
-    var values :[CGFloat] = [5,100,60,200]
+    var values :[CGFloat] = [5,100,60,200,0,75]
     var percentages :[Int] = [100,75,25]
     
     lazy var scrollView :UIScrollView = {
@@ -132,7 +132,7 @@ class StatsViewController: UIViewController {
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
-        flowLayout.minimumLineSpacing = 40
+        flowLayout.minimumLineSpacing = 15
      //   flowLayout.minimumInteritemSpacing = 40
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
         
@@ -346,7 +346,7 @@ extension StatsViewController: UICollectionViewDelegate, UICollectionViewDataSou
             }
      
             
-            cell.circleRadiusConstriant?.constant = CGFloat(35)
+            cell.circleRadiusConstriant?.constant = CGFloat(50)
             cell.percentageLable.text = "\(percentages[indexPath.row])%"
             return cell
         }
@@ -358,14 +358,14 @@ extension StatsViewController: UICollectionViewDelegate, UICollectionViewDataSou
         if collectionView == self.collectionView {
            return CGSize(width: 27, height: collectionView.frame.height)
         }
-        return CGSize(width: 27, height: collectionView.frame.height)
+        return CGSize(width: 58, height: collectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if collectionView == self.collectionView{
           return UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 4)
         }
-        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 4)
+        return UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 4)
     }
 
     
