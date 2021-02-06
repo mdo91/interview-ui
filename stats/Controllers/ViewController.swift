@@ -15,6 +15,7 @@ class StatsViewController: UIViewController {
     
     var values :[CGFloat] = [5,100,60,200,0,75]
     var percentages :[Int] = [100,75,25]
+    var lables:[String] = [ "consectetur adipiscing","Lorem ipsum dolor","Lorem ip","minim veniam","Lorem ipsum","Lorem ipsum dolor","Lorem ipsum dolor","Lorem ip"]
     
     lazy var scrollView :UIScrollView = {
        let scrollView = UIScrollView()
@@ -139,6 +140,21 @@ class StatsViewController: UIViewController {
         return collectionView
     }()
     
+    lazy var lableCollectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+
+        flowLayout.scrollDirection = .vertical
+        
+        flowLayout.minimumLineSpacing = 2
+        flowLayout.minimumInteritemSpacing = 1.40
+            // flowLayout.sectionInsetReference = .fromSafeArea
+       // flowLayout.estimatedItemSize = CGSize(width: 104.0, height: 65)
+
+        
+        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
+        return collectionView
+    }()
+    
 //MARK: - ViewController life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,9 +165,15 @@ class StatsViewController: UIViewController {
         
         
         circleCollectionView.register(CircleCell.self, forCellWithReuseIdentifier: CircleCell.reuseIdentifier)
+        
+        
         circleCollectionView.delegate = self
         circleCollectionView.dataSource = self
        // collectionView.backgroundColor = .yellow
+        
+        lableCollectionView.register(LableCell.self, forCellWithReuseIdentifier: LableCell.reuseIdentifier)
+        lableCollectionView.delegate = self
+        lableCollectionView.dataSource = self
         configUICollectionView()
 
         
@@ -242,18 +264,24 @@ class StatsViewController: UIViewController {
         
         
         circleCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-    
-        
         circleCollectionView.rightAnchor.constraint(equalTo: thirdSection.rightAnchor).isActive = true
-        
         circleCollectionView.leftAnchor.constraint(equalTo: thirdSection.leftAnchor).isActive = true
-        
         circleCollectionView.heightAnchor.constraint(equalToConstant: 65).isActive = true
-    //    circleCollectionView.widthAnchor.constraint(equalTo: thirdSection.widthAnchor).isActive = true
         circleCollectionView.topAnchor.constraint(equalTo: thirdSection.topAnchor, constant: 60).isActive = true
         
         circleCollectionView.backgroundColor = .white
+        
+        thirdSection.addSubview(lableCollectionView)
+        lableCollectionView.backgroundColor = .white
+        
+        lableCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        lableCollectionView.rightAnchor.constraint(equalTo: thirdSection.rightAnchor).isActive = true
+        lableCollectionView.leftAnchor.constraint(equalTo: thirdSection.leftAnchor,constant: 20).isActive = true
+        lableCollectionView.heightAnchor.constraint(equalToConstant: 240).isActive = true
+       
+        lableCollectionView.topAnchor.constraint(equalTo: circleCollectionView.bottomAnchor,constant: 10).isActive = true
+        
+        
        
         
     
@@ -300,9 +328,26 @@ class StatsViewController: UIViewController {
         
     }
     
-    
+    //MARK: - maxHeight
     private func maxHeight() -> CGFloat {
         return collectionView.frame.height - 20 - 44 - 8
+    }
+    
+    //MARK: - resize cell Width
+    
+    private func resizeCellWidth(text: String,at indexPath: IndexPath) -> CGFloat{
+        
+        let lable = UILabel()
+         lable.font = UIFont.systemFont(ofSize: 18)
+         lable.backgroundColor = .lightGray
+         lable.layer.cornerRadius = 40
+         lable.textAlignment = .center
+        
+        lable.layer.cornerRadius = 25
+        lable.layer.masksToBounds = true
+        lable.text = lables[indexPath.row]
+        lable.sizeToFit()
+        return lable.frame.width
     }
     
 
@@ -317,6 +362,8 @@ extension StatsViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.collectionView{
             return values.count
+        }else if collectionView == self.lableCollectionView{
+            return lables.count
         }
         return percentages.count
     }
@@ -339,7 +386,7 @@ extension StatsViewController: UICollectionViewDelegate, UICollectionViewDataSou
             cell.barHeightConstriant?.constant = values[indexPath.item]
            
             return cell
-        }else{
+        }else if collectionView == self.circleCollectionView{
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CircleCell.reuseIdentifier, for: indexPath) as? CircleCell else {
                 fatalError("\(CircleCell.self) could not be initialized")
@@ -349,6 +396,15 @@ extension StatsViewController: UICollectionViewDelegate, UICollectionViewDataSou
             cell.circleRadiusConstriant?.constant = CGFloat(50)
             cell.percentageLable.text = "\(percentages[indexPath.row])%"
             return cell
+        }else{
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LableCell.reuseIdentifier, for: indexPath) as? LableCell else{
+                fatalError("unable to init \(LableCell.reuseIdentifier)")
+            }
+            
+            cell.lable.text = lables[indexPath.item]
+            
+            return cell
         }
         
 
@@ -357,6 +413,13 @@ extension StatsViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.collectionView {
            return CGSize(width: 27, height: collectionView.frame.height)
+        } else if collectionView == lableCollectionView{
+            
+            
+            let padding = CGFloat(3.0)
+            let width = resizeCellWidth(text: "", at: indexPath)
+            print("width \(width)")
+            return CGSize(width: width + padding , height: 60)
         }
         return CGSize(width: 58, height: collectionView.frame.height)
     }
@@ -364,12 +427,13 @@ extension StatsViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if collectionView == self.collectionView{
           return UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 4)
+        }else if collectionView == self.lableCollectionView{
+            return UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 10)
+        }else{
+            return UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 4)
         }
-        return UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 4)
+        
     }
-
-    
-    
     
 }
 
