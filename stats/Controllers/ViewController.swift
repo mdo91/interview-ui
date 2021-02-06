@@ -147,8 +147,6 @@ class StatsViewController: UIViewController {
         
         flowLayout.minimumLineSpacing = 15
         flowLayout.minimumInteritemSpacing = 14
-            // flowLayout.sectionInsetReference = .fromSafeArea
-       // flowLayout.estimatedItemSize = CGSize(width: 104.0, height: 65)
 
         
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
@@ -418,7 +416,6 @@ extension StatsViewController: UICollectionViewDelegate, UICollectionViewDataSou
             
             let padding = CGFloat(3.0)
             let width = resizeCellWidth(text: "", at: indexPath)
-            print("width \(width)")
             return CGSize(width: width + padding , height: 60)
         }
         return CGSize(width: 58, height: collectionView.frame.height)
