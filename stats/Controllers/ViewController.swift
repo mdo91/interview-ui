@@ -15,7 +15,7 @@ class StatsViewController: UIViewController {
     
     var values :[CGFloat] = [5,100,60,200,0,75]
     var percentages :[Int] = [100,75,25]
-    var lables:[String] = [ "consectetur adipiscing","Lorem ipsum dolor","Lorem ip","minim veniam","Lorem ipsum","Lorem ipsum dolor","Lorem ipsum dolor","Lorem ip"]
+    var lables:[String] = [ "consectetur adipiscing","Lorem ipsum dolor","Lorem ip","minim veniam","Lorem ipsum"]
     
     lazy var scrollView :UIScrollView = {
        let scrollView = UIScrollView()
@@ -145,8 +145,8 @@ class StatsViewController: UIViewController {
 
         flowLayout.scrollDirection = .vertical
         
-        flowLayout.minimumLineSpacing = 2
-        flowLayout.minimumInteritemSpacing = 1.40
+        flowLayout.minimumLineSpacing = 15
+        flowLayout.minimumInteritemSpacing = 14
             // flowLayout.sectionInsetReference = .fromSafeArea
        // flowLayout.estimatedItemSize = CGSize(width: 104.0, height: 65)
 

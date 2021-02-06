@@ -75,7 +75,7 @@ class BackgroundBarCollectionView:UIView{
         mainStackView.spacing = 8
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.alignment = .fill
-      //  mainStackView.backgroundColor = .blue
+       // mainStackView.backgroundColor = .systemPurple
         //containerView.backgroundColor = .red
         containerView.addSubview(mainStackView)
 
@@ -84,6 +84,13 @@ class BackgroundBarCollectionView:UIView{
         numbersStackView.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.1).isActive = true
 
         mainStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        mainStackView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
+        
+        //mainStackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+    //    mainStackView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+ 
+ 
+
 
         return containerView
     }()
@@ -98,6 +105,8 @@ class BackgroundBarCollectionView:UIView{
         backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+//        backgroundView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+//        backgroundView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
     
     required init?(coder: NSCoder) {

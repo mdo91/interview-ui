@@ -59,15 +59,6 @@ class BarCollectionViewFooter:UIView{
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(daysContainer)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    //MARK: - view life cycle
-    override func layoutSubviews() {
-        super.layoutSubviews()
         
         daysContainer.topAnchor.constraint(equalTo: topAnchor).isActive = true
         daysContainer.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
@@ -94,8 +85,19 @@ class BarCollectionViewFooter:UIView{
         
         segmentedControl.bottomAnchor.constraint(equalTo: daysContainer.bottomAnchor,constant: -5).isActive = true
         segmentedControl.centerXAnchor.constraint(equalTo: daysContainer.centerXAnchor).isActive = true
-        segmentedControl.widthAnchor.constraint(equalToConstant: 160 ).isActive = true
+        segmentedControl.widthAnchor.constraint(equalToConstant:160).isActive = true
         segmentedControl.isEnabled = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - view life cycle
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+ 
         
         
         
