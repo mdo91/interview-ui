@@ -58,7 +58,8 @@ class BarCell:UICollectionViewCell{
         barHeightConstriant?.constant = 100
         
       //  print(" barHeightConstriant?.constant \( barHeightConstriant?.constant)")
-        barView.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -30).isActive = true
+     //   barView.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -30).isActive = true
+        barView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         barView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         barView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
